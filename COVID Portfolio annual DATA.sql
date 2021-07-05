@@ -1,3 +1,8 @@
+----
+	** SQL QUERIES FOR DATA EXPLOARATION
+-----
+
+
 
 SELECT *
 FROM ProjectCovid..CovidDeaths
