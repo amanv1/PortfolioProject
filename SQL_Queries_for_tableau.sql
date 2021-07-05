@@ -8,7 +8,7 @@ Queries used for Tableau Project
 
 Select SUM(new_cases) as total_cases, SUM(cast(new_deaths as int)) as total_deaths, 
 	SUM(cast(new_deaths as int))/SUM(New_Cases)*100 as DeathPercentage
-From ProjectCovid..CovidDeaths
+From ProjectPortfolio..CovidDeaths
 --Where location like '%states%'
 where continent is not null 
 --Group By date
@@ -26,7 +26,7 @@ order by 1,2
 -- European Union is part of Europe
 
 Select location, SUM(cast(new_deaths as int)) as TotalDeathCount
-From ProjectCovid..CovidDeaths
+From ProjectPortfolio..CovidDeaths
 --Where location like '%states%'
 Where continent is null 
 and location not in ('World', 'European Union', 'International')
@@ -37,7 +37,7 @@ order by TotalDeathCount desc
 -- 3.
 
 Select Location, Population, MAX(total_cases) as HighestInfectionCount,  SUM((total_cases/population))*100 as PercentPopulationInfected
-From ProjectCovid..CovidDeaths
+From ProjectPortfolio..CovidDeaths
 --Where location like '%states%'
 Group by Location, Population
 order by PercentPopulationInfected desc
@@ -47,7 +47,7 @@ order by PercentPopulationInfected desc
 
 
 Select Location, Population,date, MAX(total_cases) as HighestInfectionCount,  Max((total_cases/population))*100 as PercentPopulationInfected
-From ProjectCovid..CovidDeaths
+From ProjectPortfolio..CovidDeaths
 --Where location like '%states%'
 Group by Location, Population, date
 order by PercentPopulationInfected desc
@@ -72,8 +72,8 @@ order by PercentPopulationInfected desc
 Select dea.continent, dea.location, dea.date, dea.population
 , MAX(vac.total_vaccinations) as RollingPeopleVaccinated
 --, (RollingPeopleVaccinated/population)*100
-From ProjectCovid..CovidDeaths dea
-Join ProjectCovid..CovidVaccines vac
+From ProjectPortfolio..CovidDeaths dea
+Join ProjectPortfolio..CovidVaccines vac
 	On dea.location = vac.location
 	and dea.date = vac.date
 where dea.continent is not null 
@@ -86,7 +86,7 @@ order by 1,2,3
 -- 2.
 Select SUM(new_cases) as total_cases, SUM(cast(new_deaths as int)) as total_deaths, 
 	SUM(cast(new_deaths as int))/SUM(New_Cases)*100 as DeathPercentage
-From ProjectCovid..CovidDeaths
+From ProjectPortfolio..CovidDeaths
 --Where location like '%states%'
 where continent is not null 
 --Group By date
@@ -100,7 +100,7 @@ order by 1,2
 -- European Union is part of Europe
 
 Select location, SUM(cast(new_deaths as int)) as TotalDeathCount
-From ProjectCovid..CovidDeaths
+From ProjectPortfolio..CovidDeaths
 --Where location like '%states%'
 Where continent is null 
 and location not in ('World', 'European Union', 'International')
@@ -113,7 +113,7 @@ order by TotalDeathCount desc
 
 Select Location, Population, MAX(total_cases) as HighestInfectionCount,  
 	Max((total_cases/population))*100 as PercentPopulationInfected
-From ProjectCovid..CovidDeaths
+From ProjectPortfolio..CovidDeaths
 --Where location like '%states%'
 Group by Location, Population
 order by PercentPopulationInfected desc
@@ -130,7 +130,7 @@ order by PercentPopulationInfected desc
 
 -- took the above query and added population
 Select Location, date, population, total_cases, total_deaths
-From ProjectCovid..CovidDeaths
+From ProjectPortfolio..CovidDeaths
 --Where location like '%states%'
 where continent is not null 
 order by 1,2
@@ -145,8 +145,8 @@ as
 Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
 , SUM(CONVERT(int,vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, dea.Date) as RollingPeopleVaccinated
 --, (RollingPeopleVaccinated/population)*100
-From ProjectCovid..CovidDeaths dea
-Join ProjectCovid..CovidVaccines vac
+From ProjectPortfolio..CovidDeaths dea
+Join ProjectPortfolio..CovidVaccines vac
 	On dea.location = vac.location
 	and dea.date = vac.date
 where dea.continent is not null 
@@ -159,7 +159,7 @@ From PopvsVac
 -- 7. 
 
 Select Location, Population,date, MAX(total_cases) as HighestInfectionCount,  Max((total_cases/population))*100 as PercentPopulationInfected
-From ProjectCovid..CovidDeaths
+From ProjectPortfolio..CovidDeaths
 --Where location like '%states%'
 Group by Location, Population, date
 order by PercentPopulationInfected desc
